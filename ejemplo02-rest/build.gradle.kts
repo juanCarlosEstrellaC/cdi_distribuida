@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("war")
+    id("war") //Plugin para crear un WAR, no se usa id("application") porque no es un ejecutable como un JAR.
 }
 
 group = "org.example"
