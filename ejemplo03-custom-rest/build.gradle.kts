@@ -1,6 +1,8 @@
 plugins {
     id("java")
-    id("application")
+    //id("application")
+    // Uso shadow para crear un jar ejecutable, con todas las dependencias, ie, autocontenido.
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "org.example"
@@ -35,3 +37,18 @@ sourceSets {
     main {
         output.setResourcesDir( file("${buildDir}/classes/java/main") )
     }}
+
+tasks.shadowJar{
+ mergeServiceFiles()
+}
+
+tasks.jar{
+    manifest {
+        attributes("Main-Class" to "com.programacion.distribuida.Ejemplo03Main",
+            "Class-Path" to configurations.runtimeClasspath
+                .get()
+                .joinToString(" "){
+                    file->"${file.name}"
+                })
+    }
+}
