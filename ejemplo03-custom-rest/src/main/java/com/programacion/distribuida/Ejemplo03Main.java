@@ -8,16 +8,15 @@ public class Ejemplo03Main {
 
     public static void main(String[] args) throws Exception {
 
-        var config = SeBootstrap.Configuration.builder().
-                port(8080).
-                build();
+        var configuracion = SeBootstrap.Configuration.builder().port(8080).build();
 
-        SeBootstrap.start(RestApplication.class, config)
-                .thenApply(instance ->{
-                    URI uri =instance.configuration().baseUri();
-                    System.out.printf("Instancia %s runnit ar %s", instance,uri);
-                    return instance;
-                } ).exceptionally(ex->{
+        // SeBootstrap es una clase que permite iniciar un servidor embebido como Undertow.
+        SeBootstrap.start(RestApplication.class, configuracion)
+                .thenApply(instancia -> {
+                    URI uri = instancia.configuration().baseUri();
+                    System.out.printf("La instancia %s está corriendo en %s", instancia, uri);
+                    return instancia;
+                }).exceptionally(ex -> {
                     ex.printStackTrace();
                     return null;
                 });
